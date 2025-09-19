@@ -4,20 +4,19 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.cleanarchitecturenoteapp.feature_note.domain.model.Note
 import com.example.cleanarchitecturenoteapp.feature_note.domain.use_case.NoteUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class NotesViewModels @Inject constructor(
-
-    private val noteUseCases: NoteUseCases
-): ViewModel() {
-
+class NotesViewModels @Inject constructor( private val noteUseCases: NoteUseCases): ViewModel() {
     // VARIABLE D'ETAT
     private val _state = mutableStateOf<NotesState>(NotesState())
     val state : State<NotesState> = _state
+
+    private var recentelyDelete: Note? = null
 
     fun onEvent(event: NotesEvent) {
         when(event) {
@@ -27,7 +26,8 @@ class NotesViewModels @Inject constructor(
 
             is NotesEvent.DeleteNote -> {
                 viewModelScope.launch {
-                    noteUseCases.deleteNotes
+                    noteUseCases.deleteNotes(event.note)
+                    recentelyDelete = event.note // ???
                 }
             }
 
