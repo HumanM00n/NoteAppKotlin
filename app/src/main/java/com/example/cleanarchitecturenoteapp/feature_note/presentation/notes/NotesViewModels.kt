@@ -6,7 +6,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.cleanarchitecturenoteapp.feature_note.domain.model.Note
 import com.example.cleanarchitecturenoteapp.feature_note.domain.use_case.NoteUseCases
+import com.example.cleanarchitecturenoteapp.feature_note.domain.util.NoteOrder
+import com.example.cleanarchitecturenoteapp.feature_note.domain.util.OrderType
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -18,10 +23,22 @@ class NotesViewModels @Inject constructor( private val noteUseCases: NoteUseCase
 
     private var recentelyDelete: Note? = null
 
+    private var getNotesJob: Job? = null
+
+    init {
+        getNotes(NoteOrder.Date(OrderType.Descending))
+    }
+
     fun onEvent(event: NotesEvent) {
         when(event) {
             is NotesEvent.Order -> {
 
+                //Si le type d’ordre, l’ordre des notes est le même que l’ordre des notes que nous voulions modifier
+                //Et aussi le type d’ordre croissant ou décroissant est le même que celui qui est dans le State
+                if (state.value.noteOrder == event.noteOrder
+                    && state.value.noteOrder.orderType == event.noteOrder.orderType) {
+                        return
+                }
             }
 
             is NotesEvent.DeleteNote -> {
@@ -32,7 +49,10 @@ class NotesViewModels @Inject constructor( private val noteUseCases: NoteUseCase
             }
 
             is NotesEvent.RestoreNote -> {
-                noteUseCases.
+                viewModelScope.launch {
+                    noteUseCases.addNotes(recentelyDelete ?: return@launch)
+                    recentelyDelete = null
+                }
             }
 
             // Change l'état de visibilité de la note
@@ -43,5 +63,18 @@ class NotesViewModels @Inject constructor( private val noteUseCases: NoteUseCase
             }
 
         }
+    }
+
+    // Pas trop compris
+    private fun getNotes(noteOrder: NoteOrder) {
+        getNotesJob?.cancel()
+        getNotesJob = noteUseCases.getNotes(noteOrder)
+            .onEach { notes ->
+                _state.value = state.value.copy(
+                    notes = notes,
+                    noteOrder = noteOrder
+                )
+            }
+            .launchIn(viewModelScope)
     }
 }
