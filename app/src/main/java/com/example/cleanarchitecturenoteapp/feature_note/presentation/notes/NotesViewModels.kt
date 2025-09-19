@@ -32,7 +32,7 @@ class NotesViewModels @Inject constructor( private val noteUseCases: NoteUseCase
             }
 
             is NotesEvent.RestoreNote -> {
-
+                noteUseCases.
             }
 
             // Change l'état de visibilité de la note
