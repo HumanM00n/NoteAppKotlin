@@ -1,6 +1,5 @@
 package com.example.cleanarchitecturenoteapp.feature_note.domain.use_case
 
-import androidx.room.FtsOptions.Order
 import com.example.cleanarchitecturenoteapp.feature_note.domain.model.Note
 import com.example.cleanarchitecturenoteapp.feature_note.domain.repository.NoteRepository
 import com.example.cleanarchitecturenoteapp.feature_note.domain.util.NoteOrder
