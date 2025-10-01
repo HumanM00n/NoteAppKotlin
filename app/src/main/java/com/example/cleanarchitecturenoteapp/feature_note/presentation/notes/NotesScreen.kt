@@ -1,3 +1,4 @@
+
 package com.example.cleanarchitecturenoteapp.feature_note.presentation.notes
 
 import androidx.compose.animation.AnimatedVisibility
@@ -122,7 +123,7 @@ fun NotesScreen(
                             .clickable {
                                 navController.navigate(
                                     Screen.AddEditNoteScreen.route +
-                                    "?noteId=${note.id}&noteColor=${note.color}"
+                                            "?noteId=${note.id}&noteColor=${note.color}"
                                 )
                             },
                         onDeleteClick = {
@@ -133,7 +134,6 @@ fun NotesScreen(
                                     actionLabel = "undo"
                                 )
 
-                                // Si l'action est établi
                                 if(result == SnackbarResult.ActionPerformed) {
                                     viewModel.onEvent(NotesEvent.RestoreNote)
                                 }
@@ -146,7 +146,3 @@ fun NotesScreen(
         }
     }
 }
-
-
-
-
