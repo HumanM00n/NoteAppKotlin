@@ -35,10 +35,11 @@ class NotesViewModels @Inject constructor( private val noteUseCases: NoteUseCase
 
                 //Si le type d’ordre, l’ordre des notes est le même que l’ordre des notes que nous voulions modifier
                 //Et aussi le type d’ordre croissant ou décroissant est le même que celui qui est dans le State
-                if (state.value.noteOrder == event.noteOrder
+                if (state.value.noteOrder::class == event.noteOrder::class
                     && state.value.noteOrder.orderType == event.noteOrder.orderType) {
                         return
                 }
+                getNotes(event.noteOrder)
             }
 
             is NotesEvent.DeleteNote -> {

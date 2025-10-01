@@ -10,14 +10,6 @@ import com.example.cleanarchitecturenoteapp.feature_note.domain.model.Note
     version = 1
 )
 
-// abstract fun -> Méthode sans corps, doit être implémenter par les enfants
-
-//class Dog : Animal() {
-//    override fun makeSound() {
-//        println("Wouf !")
-//    }
-//}
-
 // abstract class signifie que c'est une class incomplète, elle sert juste de "base"
 abstract class NoteDatabase: RoomDatabase() {
 

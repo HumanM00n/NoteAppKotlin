@@ -57,9 +57,9 @@ fun NotesScreen(
                 onClick = {
                     navController.navigate(Screen.AddEditNoteScreen.route)
 
-//                    scope.launch {
-//                        snackbarHostState.showSnackbar("Add Note clicked")
-//                    }
+                    scope.launch {
+                        snackbarHostState.showSnackbar("Add Note clicked")
+                    }
                 },
                 containerColor = MaterialTheme.colorScheme.primary
             ) {
@@ -104,6 +104,7 @@ fun NotesScreen(
                     modifier = Modifier
                         .padding(vertical = 16.dp)
                         .fillMaxWidth(),
+
                     noteOrder = state.noteOrder,
                     onOrderChange = {
                         viewModel.onEvent(NotesEvent.Order(it))
