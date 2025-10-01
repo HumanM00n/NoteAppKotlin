@@ -47,6 +47,7 @@ fun NotesScreen(
     viewModel: NotesViewModels = hiltViewModel()
 ) {
     val state = viewModel.state.value
+    val countNote = state.notes.size
     val snackbarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
 
@@ -81,7 +82,7 @@ fun NotesScreen(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
-                    text = "Your note",
+                    text = "Vous avez ${countNote} notes",
                     style = MaterialTheme.typography.headlineMedium
                 )
                 IconButton(

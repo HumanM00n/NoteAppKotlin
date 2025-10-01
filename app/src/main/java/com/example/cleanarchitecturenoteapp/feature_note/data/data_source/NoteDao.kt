@@ -17,8 +17,6 @@ interface NoteDao {
     @Query("SELECT * FROM Note WHERE id = :id")
     suspend fun getNoteById(id: Int): Note?
 
-    // Permet d'éviter d'insérer une valeur existante ?
-    // insertNote(note: Note) -> J'insère une donnée note du modèle Note
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertNote(note: Note)
 
