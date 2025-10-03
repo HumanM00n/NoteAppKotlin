@@ -5,6 +5,7 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutHorizontally
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -34,6 +35,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
@@ -115,8 +117,9 @@ fun NotesScreen(
             }
             Spacer(modifier = Modifier.height(16.dp))
             LazyVerticalGrid(
-                modifier = Modifier.fillMaxWidth(),
-                columns = GridCells.Fixed(2)
+                modifier = Modifier.fillMaxWidth()
+                    .border(width = 2.dp, color = Color.Blue),
+                columns = GridCells.Fixed(2),
             ) {
                 items(state.notes) { note ->
                     NoteItem(
@@ -124,6 +127,7 @@ fun NotesScreen(
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(10.dp)
+                            .border(width = 2.dp, color = Color.Red)
                             .clickable {
                                 navController.navigate(
                                     Screen.AddEditNoteScreen.route +
