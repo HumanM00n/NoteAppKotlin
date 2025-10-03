@@ -1,4 +1,3 @@
-
 package com.example.cleanarchitecturenoteapp.feature_note.presentation.notes
 
 import androidx.compose.animation.AnimatedVisibility
@@ -15,8 +14,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.grid.items
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.Sort
 import androidx.compose.material.icons.filled.Add
@@ -114,12 +114,16 @@ fun NotesScreen(
                 )
             }
             Spacer(modifier = Modifier.height(16.dp))
-            LazyColumn(modifier = Modifier.fillMaxWidth()) {
+            LazyVerticalGrid(
+                modifier = Modifier.fillMaxWidth(),
+                columns = GridCells.Fixed(2)
+            ) {
                 items(state.notes) { note ->
                     NoteItem(
                         note = note,
                         modifier = Modifier
                             .fillMaxWidth()
+                            .padding(10.dp)
                             .clickable {
                                 navController.navigate(
                                     Screen.AddEditNoteScreen.route +
@@ -134,6 +138,7 @@ fun NotesScreen(
                                     actionLabel = "undo"
                                 )
 
+                                // Si l'action est établi
                                 if(result == SnackbarResult.ActionPerformed) {
                                     viewModel.onEvent(NotesEvent.RestoreNote)
                                 }
