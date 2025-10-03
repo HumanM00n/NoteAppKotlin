@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -117,8 +118,7 @@ fun NotesScreen(
             }
             Spacer(modifier = Modifier.height(16.dp))
             LazyVerticalGrid(
-                modifier = Modifier.fillMaxWidth()
-                    .border(width = 2.dp, color = Color.Blue),
+                modifier = Modifier.fillMaxWidth(),
                 columns = GridCells.Fixed(2),
             ) {
                 items(state.notes) { note ->
@@ -126,8 +126,8 @@ fun NotesScreen(
                         note = note,
                         modifier = Modifier
                             .fillMaxWidth()
-                            .padding(10.dp)
-                            .border(width = 2.dp, color = Color.Red)
+                            .padding(8.dp)
+                            .height(230.dp)
                             .clickable {
                                 navController.navigate(
                                     Screen.AddEditNoteScreen.route +
