@@ -18,9 +18,11 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Close
 import androidx.compose.material.icons.filled.Save
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
@@ -48,9 +50,9 @@ fun AddEditNoteScreen(
     noteColor: Int,
     viewModel: AddEditNoteViewModel = hiltViewModel()
 ) {
+
     val titleState = viewModel.noteTitle.value
     val contentState = viewModel.noteContent.value
-
     val snackbarHostState = remember { SnackbarHostState() }
 
     val noteBackgroundAnimatable = remember {
@@ -63,16 +65,17 @@ fun AddEditNoteScreen(
 
     LaunchedEffect(key1 = true) {
         viewModel.eventFlow.collectLatest { event ->
-        when(event) {
-            is AddEditNoteViewModel.UiEvent.ShowSnackbar -> {
-                snackbarHostState.showSnackbar(
-                    message = event.message
-                )
+            when (event) {
+                is AddEditNoteViewModel.UiEvent.ShowSnackbar -> {
+                    snackbarHostState.showSnackbar(
+                        message = event.message
+                    )
+                }
+
+                is AddEditNoteViewModel.UiEvent.SaveNote -> {
+                    navController.navigateUp()
+                }
             }
-            is AddEditNoteViewModel.UiEvent.SaveNote -> {
-                navController.navigateUp()
-            }
-        }
 
         }
     }
@@ -88,7 +91,7 @@ fun AddEditNoteScreen(
             ) {
                 Icon(
                     imageVector = Icons.Default.Save,
-                    contentDescription = "Save note"
+                    contentDescription = "Sauvegarder la note"
                 )
             }
         }
@@ -100,6 +103,28 @@ fun AddEditNoteScreen(
                 .padding(paddingValues)
                 .padding(16.dp)
         ) {
+
+            Row(
+                modifier = Modifier
+                    .fillMaxWidth(),
+                horizontalArrangement = Arrangement.End
+            ) {
+                IconButton(
+                    onClick = {
+                        navController.navigateUp()
+                    },
+                ) {
+                    Icon(
+                        Icons.Default.Close,
+                        contentDescription = "Fermer",
+                       // tint = MaterialTheme.colorScheme.onBackground)
+                         tint = Color.Black
+                    )
+
+                }
+            }
+
+            Spacer(modifier = Modifier.height(9.dp))
             Row(
                 modifier = Modifier
                     .fillMaxWidth()

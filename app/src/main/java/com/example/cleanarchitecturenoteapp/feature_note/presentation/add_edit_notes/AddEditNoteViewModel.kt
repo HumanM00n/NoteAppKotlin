@@ -20,7 +20,6 @@ class AddEditNoteViewModel @Inject constructor(
     private val noteUseCases: NoteUseCases,
     savedStateHandle: SavedStateHandle
 ) : ViewModel() {
-
     private val _noteTitle = mutableStateOf(NoteTextFieldState(
         hint = "Enter a title..."
     ))
