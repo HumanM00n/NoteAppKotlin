@@ -5,7 +5,6 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutHorizontally
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -15,7 +14,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
@@ -32,14 +30,18 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.SnackbarResult
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.example.cleanarchitecturenoteapp.feature_note.domain.model.Note
+import com.example.cleanarchitecturenoteapp.feature_note.presentation.notes.components.DefaultModal
 import com.example.cleanarchitecturenoteapp.feature_note.presentation.notes.components.NoteItem
 import com.example.cleanarchitecturenoteapp.feature_note.presentation.notes.components.OrderSection
 import com.example.cleanarchitecturenoteapp.feature_note.presentation.util.Screen
@@ -54,6 +56,9 @@ fun NotesScreen(
     val countNote = state.notes.size
     val snackbarHostState = remember { SnackbarHostState() }
     val scope = rememberCoroutineScope()
+
+    var selectedNote by remember { mutableStateOf<Note?>(null) }
+    var isOpen by remember { mutableStateOf(false) }
 
     Scaffold(
         snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
@@ -134,24 +139,37 @@ fun NotesScreen(
                                             "?noteId=${note.id}&noteColor=${note.color}"
                                 )
                             },
-                        onDeleteClick = {
-                            viewModel.onEvent(NotesEvent.DeleteNote(note))
-                            scope.launch {
-                                val result = snackbarHostState.showSnackbar(
-                                    message = "Note deleted",
-                                    actionLabel = "undo"
-                                )
 
-                                // Si l'action est établi
-                                if(result == SnackbarResult.ActionPerformed) {
-                                    viewModel.onEvent(NotesEvent.RestoreNote)
-                                }
-                            }
+                        onOpenModal = {
+                            selectedNote = note
+                            isOpen = true
                         }
                     )
                     Spacer(modifier = Modifier.height(16.dp))
                 }
             }
         }
+
+        DefaultModal(
+            note = selectedNote,
+            isOpen = isOpen,
+            onDismissRequest = {
+                isOpen = false
+            },
+            onDeleteClick = { note ->
+                viewModel.onEvent(NotesEvent.DeleteNote(note))
+                scope.launch {
+                    val result = snackbarHostState.showSnackbar(
+                        message = "Note supprimée",
+                        actionLabel = "Annuler"
+                    )
+
+                    if(result == SnackbarResult.ActionPerformed) {
+                        viewModel.onEvent(NotesEvent.RestoreNote)
+                    }
+                }
+            }
+
+        )
     }
 }
