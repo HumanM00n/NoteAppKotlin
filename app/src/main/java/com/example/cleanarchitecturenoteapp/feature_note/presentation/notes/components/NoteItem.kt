@@ -34,7 +34,7 @@ fun NoteItem(
     modifier: Modifier = Modifier,
     cornerRadius: Dp = 10.dp,
     cuteCornerSize: Dp = 16.dp,
-    onDeleteClick: () -> Unit
+    onOpenModal: () -> Unit
 ) {
     Box(
         modifier = modifier
@@ -42,7 +42,10 @@ fun NoteItem(
         Canvas(modifier = Modifier.matchParentSize()) {
             val clipPath = Path().apply {
                 lineTo(size.width - cuteCornerSize.toPx(), 0f) // Start (0, 0) (coin haut-gauche)
-                lineTo(size.width, cuteCornerSize.toPx()) // Trace ligne vers haut droit, laisse un espace (coin coupé)
+                lineTo(
+                    size.width,
+                    cuteCornerSize.toPx()
+                ) // Trace ligne vers haut droit, laisse un espace (coin coupé)
                 lineTo(size.width, size.height)
                 lineTo(0f, size.height)
                 close()
@@ -59,7 +62,10 @@ fun NoteItem(
                         ColorUtils.blendARGB(note.color, 0x000000, 0.2f)
                     ),
                     topLeft = Offset(x = size.width - cuteCornerSize.toPx(), -100f),
-                    size = Size( width = cuteCornerSize.toPx() +100f, height = cuteCornerSize.toPx () + 100f ),
+                    size = Size(
+                        width = cuteCornerSize.toPx() + 100f,
+                        height = cuteCornerSize.toPx() + 100f
+                    ),
                     cornerRadius = CornerRadius(cornerRadius.toPx())
                 )
             }
@@ -89,7 +95,7 @@ fun NoteItem(
         }
 
         IconButton(
-            onClick = onDeleteClick,
+            onClick = onOpenModal,
             modifier = Modifier.align(Alignment.BottomEnd)
         ) {
             Icon(
