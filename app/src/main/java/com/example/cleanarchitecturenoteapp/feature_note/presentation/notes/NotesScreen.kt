@@ -25,6 +25,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarDuration
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.SnackbarResult
@@ -68,14 +69,14 @@ fun NotesScreen(
                     navController.navigate(Screen.AddEditNoteScreen.route)
 
                     scope.launch {
-                        snackbarHostState.showSnackbar("Add Note clicked")
+                        snackbarHostState.showSnackbar("Ajouter une note cliqué")
                     }
                 },
                 containerColor = MaterialTheme.colorScheme.primary
             ) {
                 Icon(
                     imageVector = Icons.Default.Add,
-                    contentDescription = "Add Note"
+                    contentDescription = "Ajouter une Note"
                 )
             }
         }
@@ -161,7 +162,8 @@ fun NotesScreen(
                 scope.launch {
                     val result = snackbarHostState.showSnackbar(
                         message = "Note supprimée",
-                        actionLabel = "Annuler"
+                        actionLabel = "Annuler",
+                        duration = SnackbarDuration.Long
                     )
 
                     if(result == SnackbarResult.ActionPerformed) {
