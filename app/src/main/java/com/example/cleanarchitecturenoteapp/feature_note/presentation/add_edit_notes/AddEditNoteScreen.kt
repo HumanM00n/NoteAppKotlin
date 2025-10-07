@@ -114,6 +114,7 @@ fun AddEditNoteScreen(
             ) {
                 IconButton(
                     onClick = {
+                        viewModel.onEvent(AddEditNoteEvent.SaveNote)
                         navController.navigateUp()
                     },
                 ) {
