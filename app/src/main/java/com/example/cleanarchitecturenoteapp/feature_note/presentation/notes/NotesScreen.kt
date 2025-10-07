@@ -151,6 +151,7 @@ fun NotesScreen(
         }
 
         DefaultModal(
+            modifier = Modifier,
             note = selectedNote,
             isOpen = isOpen,
             onDismissRequest = {
@@ -169,7 +170,6 @@ fun NotesScreen(
                     }
                 }
             }
-
         )
     }
 }
