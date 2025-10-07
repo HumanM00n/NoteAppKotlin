@@ -104,6 +104,9 @@ fun AddEditNoteScreen(
                 .padding(16.dp)
         ) {
 
+            /*----------------------------------
+            |            CLOSE BUTTON           |
+             -----------------------------------*/
             Row(
                 modifier = Modifier
                     .fillMaxWidth(),
@@ -117,13 +120,15 @@ fun AddEditNoteScreen(
                     Icon(
                         Icons.Default.Close,
                         contentDescription = "Fermer",
-                       // tint = MaterialTheme.colorScheme.onBackground)
                          tint = Color.Black
                     )
 
                 }
             }
 
+            /*----------------------------------
+            |            COLOR BUTTON           |
+            -----------------------------------*/
             Spacer(modifier = Modifier.height(9.dp))
             Row(
                 modifier = Modifier
