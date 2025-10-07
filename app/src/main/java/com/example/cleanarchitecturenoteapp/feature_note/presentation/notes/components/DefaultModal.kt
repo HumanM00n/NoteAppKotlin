@@ -41,7 +41,9 @@ fun DefaultModal(
             }
         ) {
             Surface(
-                modifier = Modifier.wrapContentWidth().wrapContentHeight(),
+                modifier = Modifier
+                    .wrapContentWidth()
+                    .wrapContentHeight(),
                 shape = RoundedCornerShape(12.dp),
                 tonalElevation = AlertDialogDefaults.TonalElevation,
             ) {
@@ -76,7 +78,10 @@ fun DefaultModal(
                                 onDismissRequest()
                             },
                         ) {
-                            Text("Annuler")
+                            Text(
+                                text = "Annuler",
+                                color = Color.Black
+                            )
                         }
 
                         /*----------------------------------
@@ -87,9 +92,13 @@ fun DefaultModal(
                                 onDismissRequest()
                                 note?.let {
                                     onDeleteClick(it)
-                                } },
+                                }
+                            },
                         ) {
-                            Text("Supprimer")
+                            Text(
+                                text = "Supprimer",
+                                color = Color.Black
+                            )
                         }
                     }
                 }
