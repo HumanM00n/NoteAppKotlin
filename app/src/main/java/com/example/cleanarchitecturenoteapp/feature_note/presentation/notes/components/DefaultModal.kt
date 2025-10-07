@@ -27,7 +27,6 @@ import com.example.cleanarchitecturenoteapp.feature_note.domain.model.Note
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun DefaultModal(
-    modifier: Modifier,
     note: Note?,
     isOpen: Boolean,
     onDismissRequest: () -> Unit,
